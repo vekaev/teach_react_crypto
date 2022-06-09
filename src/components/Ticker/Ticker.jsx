@@ -1,12 +1,47 @@
-import { useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 import { Input } from "../Input";
+import { getAllCoinsList } from "../../services/api/tickers";
 
 const mockedAutoCompleteItems = ['BTC', 'DOGE', 'BCT','CHD'];
 
 const Ticker = ({ onAddTicker }) => {
+  const [allCoinsList, setAllCoinsList] = useState([])
+  const [autoCompleteItems, setAutoCompleteItems] = useState([]);
+
+  const [errorMessage, setErrorMessage] = useState(null);
   const [ticker, setTicker] = useState('');
-  const [autoCompleteItems] = useState(mockedAutoCompleteItems);
+
+  useEffect(() => {
+    getAllCoinsList().then((coins) => {
+      setAllCoinsList(coins)
+    })
+
+    return () => {
+      console.log('unmount')
+    }
+  }, []);
+
+  useEffect(() => {
+    if (ticker.length > 0) {
+      const filteredCoins = allCoinsList
+          .filter(coin => coin.toLowerCase().startsWith(ticker.toLowerCase()))
+          .slice(0, 4);
+
+      setAutoCompleteItems(filteredCoins)
+    }
+  }, [ticker, allCoinsList]);
+
+  // 1 -> 0 -> 2
+  // useEffect(() => {
+  //   console.log('0 componentDidMount');
+  // }, []);
+  //
+  // useEffect(() => {
+  //   console.log('2 componentDidUpdate');
+  // });
+  //
+  // console.log('1 componentDidUpdate');
 
   const handleTickerChange = (value) => {
     setTicker(value)
@@ -18,7 +53,6 @@ const Ticker = ({ onAddTicker }) => {
     onAddTicker(ticker)
     setTicker('');
   }
-
 
   return <section>
     <div className="flex">
@@ -33,7 +67,8 @@ const Ticker = ({ onAddTicker }) => {
               onChange={handleTickerChange}
           />
         </div>
-        <div className="flex bg-white shadow-md p-1 rounded-md shadow-md flex-wrap">
+
+        {!!autoCompleteItems.length && <div className="flex bg-white shadow-md p-1 rounded-md shadow-md flex-wrap">
           {autoCompleteItems.map((autoCompleteItem, idx) =>
               <span
                   key={autoCompleteItem + idx}
@@ -41,8 +76,8 @@ const Ticker = ({ onAddTicker }) => {
                     {autoCompleteItem}
                   </span>
           )}
-        </div>
-        <div className="text-sm text-red-600">This ticker already exists</div>
+        </div>}
+        {errorMessage && <div className="text-sm text-red-600">This ticker already exists</div>}
       </div>
     </div>
     <button
@@ -67,7 +102,7 @@ const Ticker = ({ onAddTicker }) => {
   </section>
 };
 
-// class TickerCC extends React.Component {
+// class Ticker extends React.Component {
 //   constructor(props) {
 //     super(props);
 //
@@ -75,6 +110,14 @@ const Ticker = ({ onAddTicker }) => {
 //       ticker: '',
 //       autoCompleteItems: mockedAutoCompleteItems,
 //     }
+//   }
+//
+//   componentDidMount() {
+//     console.log('TickerCC componentDidMount');
+//   }
+//
+//   componentDidUpdate() {
+//     console.log('TickerCC componentDidUpdate');
 //   }
 //
 //   handleTickerChange = (value) => {
