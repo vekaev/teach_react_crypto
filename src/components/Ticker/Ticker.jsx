@@ -1,36 +1,56 @@
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 
 import { Input } from "../Input";
-import { getAllCoinsList } from "../../services/api/tickers";
+import { getAllCoinsList } from "services/api/tickers";
+import { useAllCoinsList } from 'hooks';
 
 const mockedAutoCompleteItems = ['BTC', 'DOGE', 'BCT','CHD'];
 
-const Ticker = ({ onAddTicker }) => {
-  const [allCoinsList, setAllCoinsList] = useState([])
-  const [autoCompleteItems, setAutoCompleteItems] = useState([]);
+const createCurrentDate = () => {
+  return String(new Date())
+}
 
+let b
+
+const setB = (v) => {
+  if (typeof v === 'function') {
+    const data = v(b)
+
+    b = data
+  }
+
+  b = v
+  // React.rerender()
+}
+
+const customUseState = (val) => {
+  if (val) b = val
+  return [b, setB]
+}
+
+
+const Ticker = ({ id = 1, onAddTicker }) => {
+  const [counter, setCounter] = useState(0);
+  const allCoinsList = useAllCoinsList();
   const [errorMessage, setErrorMessage] = useState(null);
   const [ticker, setTicker] = useState('');
 
-  useEffect(() => {
-    getAllCoinsList().then((coins) => {
-      setAllCoinsList(coins)
-    })
+  const handleClick = () => {
+    setCounter((currentValue) => currentValue + 1);
+    setCounter((currentValue) => currentValue + 1);
+  }
 
-    return () => {
-      console.log('unmount')
-    }
-  }, []);
+  const autoCompleteItems = useMemo(()=> {
+    let result = [];
 
-  useEffect(() => {
     if (ticker.length > 0) {
-      const filteredCoins = allCoinsList
+      result = allCoinsList
           .filter(coin => coin.toLowerCase().startsWith(ticker.toLowerCase()))
           .slice(0, 4);
-
-      setAutoCompleteItems(filteredCoins)
     }
-  }, [ticker, allCoinsList]);
+
+    return result;
+  },[ticker, allCoinsList])
 
   // 1 -> 0 -> 2
   // useEffect(() => {
@@ -43,9 +63,7 @@ const Ticker = ({ onAddTicker }) => {
   //
   // console.log('1 componentDidUpdate');
 
-  const handleTickerChange = (value) => {
-    setTicker(value)
-  }
+  const handleTickerChange = useCallback((value) => setTicker(value), []);
 
   const handleAddTicker = () => {
     if (ticker.length === 0) return;
@@ -57,6 +75,8 @@ const Ticker = ({ onAddTicker }) => {
   return <section>
     <div className="flex">
       <div className="max-w-xs">
+        {<p>{counter}</p>}
+        <button onClick={handleClick}>+</button>
         <label htmlFor="wallet" className="block text-sm font-medium text-gray-700"
         >Ticker</label
         >

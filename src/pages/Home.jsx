@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 
 import { Ticker } from 'components';
+import { PageContainer } from "containers";
 
 const mockedCoins = [
     {
@@ -40,6 +41,12 @@ const Home = ({ tableColor }) => {
     const [activeTicker, setActiveTicker] = useState(tickers[2]);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        return () => {
+            console.log('componentWillUnmount');
+        }
+    }, []);
+
     const handleAddTicker = (ticker) => {
         const newTicker = {
             name: ticker,
@@ -51,7 +58,7 @@ const Home = ({ tableColor }) => {
 
     return (
         <>
-            <div className="container mx-auto flex flex-col items-center bg-gray-100 p-4">
+        <PageContainer>
                 {
                     loading &&
                     <div className="fixed w-100 h-100 opacity-80 bg-purple-800 inset-0 z-50 flex items-center justify-center">
@@ -157,10 +164,7 @@ const Home = ({ tableColor }) => {
                         </button>
                     </section>
                 </div>
-            </div>
-            <div>
-                Test
-            </div>
+            </PageContainer>
         </>
     );
 };

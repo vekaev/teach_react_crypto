@@ -2,18 +2,23 @@ import axios from "axios";
 
 const ALL_COINS_URL = 'https://min-api.cryptocompare.com/data/all/coinlist?summary=true';
 
-const getAllCoinsList = async () => {
+const fetchAllCoinsList = async () => {
     try {
         const { data: { Data } } = await axios.get(ALL_COINS_URL);
-        const coinsList = Object.keys(Data);
 
-        if (coinsList.length > 0)
-            return coinsList;
+        return Data;
     } catch (error) {
         console.log(error);
+        return [];
     }
-
-    return [];
 };
+
+const getAllCoinsList = async () => {
+    const data = await fetchAllCoinsList();
+
+    return Object.keys(data);
+};
+
+
 
 export { getAllCoinsList };
