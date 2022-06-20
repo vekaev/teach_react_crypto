@@ -1,7 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-// const INTRO_VALUE = "TICKER: ";
+// const INTRO_VALUE == "TICKER: ";
+
+const a = Symbol('a');
+const a1 = Symbol('a');
+
+
+console.log(a  === a1);
 
 const Input = React.memo(({ onChange, className, value, ...props }) => {
     const handleChange = useCallback((e) => {

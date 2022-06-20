@@ -1,10 +1,13 @@
-import axios from "axios";
+import a from "axios";
+import URLS from "constants/api";
 
-const ALL_COINS_URL = 'https://min-api.cryptocompare.com/data/all/coinlist?summary=true';
+const axios = a.create({
+    baseURL: 'https://min-api.cryptocompare.com/data/'
+})
 
 const fetchAllCoinsList = async () => {
     try {
-        const { data: { Data } } = await axios.get(ALL_COINS_URL);
+        const { data: { Data } } = await axios.get(URLS.ALL_COINS);
 
         return Data;
     } catch (error) {
