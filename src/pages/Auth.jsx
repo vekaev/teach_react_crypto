@@ -71,6 +71,7 @@ const initialData = {
     password: "ilikecats"
 };
 
+//TODO: add auth functionality when mentor add backend
 const Auth = () => {
     const navigate = useNavigate();
     const { login } = useAuth();

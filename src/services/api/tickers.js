@@ -5,6 +5,8 @@ const axios = a.create({
     baseURL: 'https://min-api.cryptocompare.com/data/'
 })
 
+//TODO: use MAP data structure
+//TODO: move it to separate file and make it reusable
 const subscriptions = {};
 
 const notify = (key, data) => {
@@ -41,6 +43,7 @@ setInterval(async () => {
 }, 3000)
 
 const getCoinsInfo = async (names) => {
+    //TODO: add error handling
     const { data } = await axios.get(`${URLS.COINS_INFO_FOR}${names.join(",")}`);
 
     return Object.entries(data).map(([name, { USD: price}]) => ({name, price }));

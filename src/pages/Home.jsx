@@ -56,8 +56,9 @@ const Home = ({ tableColor }) => {
         };
 
         setTickers([...tickers, newTicker]);
-
+        //TODO: subscription should works correctly and with already exist coins
         subscribe(tickerName, (price) => {
+            //TODO: fix this issue
             setTickers(tickers.map((item) => {
                 const result = { ...item };
 
@@ -98,6 +99,7 @@ const Home = ({ tableColor }) => {
 
                     <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
                         {tickers.map((coin) =>
+                            //TODO: move to different component
                             <div
                                 key={coin.name}
                                 className={`bg-white overflow-hidden shadow rounded-lg ${activeTicker?.name === coin.name && 'border-purple-800'} border-4 border-solid cursor-pointer`}
@@ -111,6 +113,7 @@ const Home = ({ tableColor }) => {
                                     </dd>
                                 </div>
                                 <div className="w-full border-t border-gray-200"></div>
+                                {/*TODO: add delete functionality*/}
                                 <button
                                     className="flex items-center justify-center font-medium w-full bg-gray-100 px-4 py-4 sm:px-6 text-md text-gray-500 hover:text-gray-600 hover:bg-gray-200 hover:opacity-20 transition-all focus:outline-none"
                                 >
@@ -132,6 +135,7 @@ const Home = ({ tableColor }) => {
                             </div>)}
                     </dl>
                     <hr className="w-full border-t border-gray-600 my-4"/>
+                    {/*TODO: show it only for active ticker*/}
                     <section className="relative">
                         <h3 className="text-lg leading-6 font-medium text-gray-900 my-8">
                             VUE - USD

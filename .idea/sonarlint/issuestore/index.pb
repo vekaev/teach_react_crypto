@@ -33,8 +33,6 @@ B
 src/hooks/index.js,e/9/e97607d1eb06075f37702440dd58698adcd7a48d
 P
  src/containers/PageContainer.jsx,6/3/63a74e649a4d1ac2c0260334ce5cd462620ccb55
-B
-src/pages/Auth.jsx,3/c/3c78e23979780add8c03fb0a08e076dc4f39a407
 N
 src/components/Ticker/index.js,6/7/67bc418c01f56a86b8a419c1e31327e014fd941c
 F
