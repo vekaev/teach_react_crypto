@@ -1,9 +1,7 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 const usePersistStorage = (initialData, key) => {
-    const localData = useMemo(() => JSON.parse(localStorage.getItem(key)), [key]);
-
-    const [data, setData] = useState(localData || initialData);
+    const [data, setData] = useState(() => JSON.parse(localStorage.getItem(key)) || initialData);
 
     const setValue = useCallback((value) => {
         setData(value)

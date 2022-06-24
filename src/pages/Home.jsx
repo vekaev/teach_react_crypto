@@ -2,25 +2,27 @@ import {useEffect, useState} from 'react';
 
 import { Ticker } from 'components';
 import { PageContainer } from "containers";
+import { subscribe } from "../services/api/tickers";
+import { usePersistStorage } from "../hooks";
 
-const mockedCoins = [
-    {
-        name: 'BTC',
-        price: [123]
-    },
-    {
-        name: 'DOGE',
-        price: [12]
-    },
-    {
-        name: 'BCT',
-        price: [1234]
-    },
-    {
-        name: 'CHD',
-        price: []
-    },
-];
+// const mockedCoins = [
+//     {
+//         name: 'BTC',
+//         price: [123]
+//     },
+//     {
+//         name: 'DOGE',
+//         price: [12]
+//     },
+//     {
+//         name: 'BCT',
+//         price: [1234]
+//     },
+//     {
+//         name: 'CHD',
+//         price: []
+//     },
+// ];
 
 // const getTableStyles = (tableColor) => ({
 //     color: tableColor,
@@ -37,8 +39,8 @@ const mockedCoins = [
 const Home = ({ tableColor }) => {
     const [closed, setClosed] = useState(false);
     // const tableStyles = getTableStyles(tableColor);
-    const [tickers, setTickers] = useState(mockedCoins);
-    const [activeTicker, setActiveTicker] = useState(tickers[2]);
+    const [tickers, setTickers] = usePersistStorage([]);
+    const [activeTicker, setActiveTicker] = useState();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -47,13 +49,25 @@ const Home = ({ tableColor }) => {
         }
     }, []);
 
-    const handleAddTicker = (ticker) => {
+    const handleAddTicker = (tickerName) => {
         const newTicker = {
-            name: ticker,
+            name: tickerName,
             price: []
         };
 
         setTickers([...tickers, newTicker]);
+
+        subscribe(tickerName, (price) => {
+            setTickers(tickers.map((item) => {
+                const result = { ...item };
+
+                if (item.name === tickerName) {
+                    result.price.push(price);
+                }
+
+                return result;
+            }))
+        })
     }
 
     return (
@@ -86,7 +100,7 @@ const Home = ({ tableColor }) => {
                         {tickers.map((coin) =>
                             <div
                                 key={coin.name}
-                                className={`bg-white overflow-hidden shadow rounded-lg ${activeTicker.name === coin.name && 'border-purple-800'} border-4 border-solid cursor-pointer`}
+                                className={`bg-white overflow-hidden shadow rounded-lg ${activeTicker?.name === coin.name && 'border-purple-800'} border-4 border-solid cursor-pointer`}
                             >
                                 <div className="px-4 py-5 sm:p-6 text-center">
                                     <dt className="text-sm font-medium text-gray-500 truncate">

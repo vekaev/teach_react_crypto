@@ -10,10 +10,10 @@ const useAllCoinsList = () => {
     const [allCoinsList, setAllCoinsList] = usePersistStorage([], ALL_COINS_KEY);
 
     useEffect(() => {
-        if (!calledOnce && allCoinsList.length === 0) {
+        // if (!calledOnce && allCoinsList.length === 0) {
             getAllCoinsList()
-                .then(setAllCoinsList);
-        }
+                // .then(setAllCoinsList);
+        // }
 
         if (!calledOnce) calledOnce = true;
     }, []);

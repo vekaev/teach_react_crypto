@@ -31,15 +31,13 @@ G
 src/containers/index.js,c/a/ca0183fe81493f64b05a300c6f56122846fc14c3
 B
 src/hooks/index.js,e/9/e97607d1eb06075f37702440dd58698adcd7a48d
-L
-src/hooks/useAllCoinsList.js,2/8/28974eabd4f3ef111f3151c436a347977c11ad51
-D
-src/hooks/useAuth.js,6/1/61a39fca19ec320593f100eb70ab31a903f86f34
 P
  src/containers/PageContainer.jsx,6/3/63a74e649a4d1ac2c0260334ce5cd462620ccb55
 B
 src/pages/Auth.jsx,3/c/3c78e23979780add8c03fb0a08e076dc4f39a407
-M
-src/components/Input/index.js,4/6/46394e1f55990c7fbb6f4099835bf2a6417ed014
 N
 src/components/Ticker/index.js,6/7/67bc418c01f56a86b8a419c1e31327e014fd941c
+F
+src/providers/index.js,2/2/229998ef4c5d206e54865c2ce9897dc6d03b2fec
+N
+src/components/Input/Input.jsx,9/b/9b052731e5a6d64688fc2f5a1293af578e962de8
